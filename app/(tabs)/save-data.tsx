@@ -10,20 +10,20 @@ export default function SaveDataScreen() {
 //Lokalizacja
 
     const [localization, setLocalization] = useState<Location.LocationObjectCoords | null>(null)
-    const [errorMessage, setErroMessage] = useState<string>('')
+    const [errorMessage, setErrorMessage] = useState<string>('')
     
     const getLocation = async () => {
     const { status } = await Location.requestForegroundPermissionsAsync()
        
         if (status !== 'granted') {
-            setErroMessage('Nie udzielono uprawnień dostępu do lokalizacji')
+            setErrorMessage('Nie udzielono uprawnień dostępu do lokalizacji')
             return
         }
 
         const currentLocation = await Location.getCurrentPositionAsync({})
 
         setLocalization(currentLocation.coords)
-        setErroMessage('')
+        setErrorMessage('')
     }
 
 //Kamera
@@ -49,7 +49,7 @@ export default function SaveDataScreen() {
             <SafeAreaView style={{ flex: 1 }}>
             <View>
             <Text style={styles.text}>Nie udzielono uprawnień dostępu do aparatu</Text>
-                <Button title='Udziel dostępu' onPress={getPermission} />
+                <Button title='Udziel dostępu' onPress={() => getPermission()} />
                 </View>
             </SafeAreaView>
         )
