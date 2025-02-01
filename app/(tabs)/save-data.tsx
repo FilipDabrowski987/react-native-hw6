@@ -1,9 +1,13 @@
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import * as Location from 'expo-location';
-import * as Camera from 'expo-camera';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 
 export default function SaveDataScreen() {
+
+//Lokalizacja
+
     const [localization, setLocalization] = useState<Location.LocationObjectCoords | null>(null)
     const [errorMessage, setErroMessage] = useState<string>('')
     
@@ -21,6 +25,33 @@ export default function SaveDataScreen() {
         setErroMessage('')
     }
 
+//Kamera
+
+    const cameraRef = useRef<CameraView | null>(null)
+    const [permission, getPermission] = useCameraPermissions()
+
+    useEffect(() => {
+        async function getSizes() {
+            if (permission?.granted && cameraRef.current) {
+                const sizes = await cameraRef.current.getAvailablePictureSizesAsync()
+            }
+        }
+        getSizes()
+    }, [permission, cameraRef])
+
+    if (!permission) {
+        <View/>
+    }
+
+    if (!permission.granted) {
+        return (
+            <View>
+            <Text>Nie udzielono uprawnień dostępu do aparatu</Text>
+                <Button title='Udziel uprawnienia' onPress={getPermission} />
+            </View>
+        )
+    }
+
   return (
     <View style={styles.container}>
           <Text style={styles.title}>Lokalizacja GPS</Text>
@@ -29,7 +60,7 @@ export default function SaveDataScreen() {
           {localization && (
               <Text>Współrzędne: {localization.latitude}, {localization.longitude}</Text>)}
     </View>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
