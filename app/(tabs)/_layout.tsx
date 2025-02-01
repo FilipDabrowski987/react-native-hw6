@@ -44,7 +44,7 @@ export default function TabLayout() {
         name="save-data"
         options={{
           title: 'Save data',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.right" color={color} />,
         }}
       />
     </Tabs>
