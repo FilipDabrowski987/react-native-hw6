@@ -74,9 +74,6 @@ export default function HomeScreen() {
         keyExtractor={user=>user.id.toString()}
         renderItem={({ item }) => <View style={styles.userItem}><Button title={item.name} onPress={() => router.push(`/details/${item.id}`)} /></View>}
       />
-      <Button
-        title={'Idź do about'}
-        onPress={() => router.push('/about')} />
       <TextInput
               style={styles.input}
               onChangeText={setId}
